@@ -1,0 +1,332 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>HTML学习笔记</title>
+	<link rel="stylesheet" type="text/css" href="mystyle.css">
+	<style type="text/css">
+	body {background-color:white;}
+	p {color:blue;}
+	
+	</style>
+	
+	<script>
+		function clickme()
+		{
+			document.getElementById("btn_clickme").style.color="#ff0000";
+			alert("xxx");
+		}
+	</script>
+	<noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
+
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+ //是否显示导航栏
+ var showNavBar = true;
+ //是否展开导航栏
+ var expandNavBar = true;
+
+ $(document).ready(function(){
+    var h1s = $("body").find("h1");
+    var h2s = $("body").find("h2");
+    var h3s = $("body").find("h3");
+    var h4s = $("body").find("h4");
+    var h5s = $("body").find("h5");
+    var h6s = $("body").find("h6");
+
+    var headCounts = [h1s.length, h2s.length, h3s.length, h4s.length, h5s.length, h6s.length];
+    var vH1Tag = null;
+    var vH2Tag = null;
+    for(var i = 0; i < headCounts.length; i++){
+        if(headCounts[i] > 0){
+            if(vH1Tag == null){
+                vH1Tag = 'h' + (i + 1);
+            }else{
+                vH2Tag = 'h' + (i + 1);
+            }
+        }
+    }
+    if(vH1Tag == null){
+        return;
+    }
+
+    $("body").prepend('<div class="BlogAnchor">' + 
+        '<span style="color:red;position:absolute;top:-6px;left:0px;cursor:pointer;" onclick="$(\'.BlogAnchor\').hide();">×</span>' +
+        '<p>' + 
+            '<b id="AnchorContentToggle" title="收起" style="cursor:pointer;">目录▲</b>' + 
+        '</p>' + 
+        '<div class="AnchorContent" id="AnchorContent"> </div>' + 
+    '</div>' );
+
+    var vH1Index = 0;
+    var vH2Index = 0;
+    $("body").find("h1,h2,h3,h4,h5,h6").each(function(i,item){
+        var id = '';
+        var name = '';
+        var tag = $(item).get(0).tagName.toLowerCase();
+        var className = '';
+        if(tag == vH1Tag){
+            id = name = ++vH1Index;
+            name = id;
+            vH2Index = 0;
+            className = 'item_h1';
+        }else if(tag == vH2Tag){
+            id = vH1Index + '_' + ++vH2Index;
+            name = vH1Index + '.' + vH2Index;
+            className = 'item_h2';
+        }
+        $(item).attr("id","wow"+id);
+        $(item).addClass("wow_head");
+        $("#AnchorContent").css('max-height', ($(window).height() - 180) + 'px');
+        $("#AnchorContent").append('<li><a class="nav_item '+className+' anchor-link" onclick="return false;" href="#" link="#wow'+id+'">'+name+" · "+$(this).text()+'</a></li>');
+    });
+
+    $("#AnchorContentToggle").click(function(){
+        var text = $(this).html();
+        if(text=="目录▲"){
+            $(this).html("目录▼");
+            $(this).attr({"title":"展开"});
+        }else{
+            $(this).html("目录▲");
+            $(this).attr({"title":"收起"});
+        }
+        $("#AnchorContent").toggle();
+    });
+    $(".anchor-link").click(function(){
+        $("html,body").animate({scrollTop: $($(this).attr("link")).offset().top}, 500);
+    });
+
+    var headerNavs = $(".BlogAnchor li .nav_item");
+    var headerTops = [];
+    $(".wow_head").each(function(i, n){
+        headerTops.push($(n).offset().top);
+    });
+    $(window).scroll(function(){
+        var scrollTop = $(window).scrollTop();
+        $.each(headerTops, function(i, n){
+            var distance = n - scrollTop;
+            if(distance >= 0){
+                $(".BlogAnchor li .nav_item.current").removeClass('current');
+                $(headerNavs[i]).addClass('current');
+                return false;
+            }
+        });
+    });
+
+    if(!showNavBar){
+        $('.BlogAnchor').hide();
+    }
+    if(!expandNavBar){
+        $(this).html("目录▼");
+        $(this).attr({"title":"展开"});
+        $("#AnchorContent").hide();
+    }
+ });
+</script>
+<style>
+    /*导航*/
+    .BlogAnchor {
+        background: #f1f1f1;
+        padding: 10px;
+        line-height: 180%;
+        position: fixed;
+        right: 48px;
+        top: 48px;
+        border: 1px solid #aaaaaa;
+    }
+    .BlogAnchor p {
+        font-size: 18px;
+        color: #15a230;
+        margin: 0 0 0.3rem 0;
+        text-align: right;
+    }
+    .BlogAnchor .AnchorContent {
+        padding: 5px 0px;
+        overflow: auto;
+    }
+    .BlogAnchor li{
+        text-indent: 0.5rem;
+        font-size: 14px;
+        list-style: none;
+    }
+    .BlogAnchor li .nav_item{
+        padding: 3px;
+    }
+    .BlogAnchor li .item_h1{
+        margin-left: 0rem;
+    }
+    .BlogAnchor li .item_h2{
+        margin-left: 2rem;
+        font-size: 0.8rem;
+    }
+    .BlogAnchor li .nav_item.current{
+        color: white;
+        background-color: #5cc26f;
+    }
+    #AnchorContentToggle {
+        font-size: 13px;
+        font-weight: normal;
+        color: #FFF;
+        display: inline-block;
+        line-height: 20px;
+        background: #5cc26f;
+        font-style: normal;
+        padding: 1px 8px;
+    }
+    .BlogAnchor a:hover {
+        color: #5cc26f;
+    }
+    .BlogAnchor a {
+        text-decoration: none;
+    }
+</style>
+
+</head>
+<body>
+
+<div id="container" style="width:1000px">
+
+<div id="header" style="background-color:green;">
+<h1 style="margin-bottom:0;text-align:center">标题</h1>
+</div>
+  
+<div id="menu" style="background-color:#EEEEEE;height:1000px;width:200px;float:left;">
+</div>
+ 
+<div id="content" style="background-color:white;height:1000px;width:800px;float:left;">
+<!-- 实例 -->
+    纯文本1     纯文本1
+	纯文本3     纯文本4
+	<h1>标题 1</h1>
+	<font size="6">这是6号字体文本</font>
+	
+	<h2>标题 2</h2>
+	<h3>标题 3</h3>
+	<h4>标题 4</h4>
+	<h5>标题 5</h5>
+	<h6>标题 6</h6>
+    <p>段落</p>
+	
+	<a href="http://www.runoob.com/html/html-tutorial.html" >文字链接</a>
+	<br/>
+	<a href="#note" target="_blank">文字链接(新窗口链接到id)</a>
+	<img src="https://www.baidu.com/img/bd_logo1.png" alt="百度logo" width="258" height="39" />
+	
+	<br/>
+	<br/>
+	
+	<!-- 表格 -->
+	<table border="1">
+		<tr>
+			<td>row 1，cell 1</td>
+			<td>row 1，cell 2</td>
+		</tr>
+		<tr>
+			<td>row 2，cell 1</td>
+			<td>row 2，cell 2</td>
+		</tr>
+	</table>
+    
+	<!-- 表单 -->
+	<form action="">
+	<fieldset>
+	<legend>Personal information:</legend>
+		Name: 			<input type="text" size="30"/><br/>
+		Sex:			<input type="radio" name="sex" value="male"/>Male<input type="radio" name="sex" value="female"/>Female<br>
+		爱好：			<input type="checkbox" name="vehicle" value="reading">reading
+						<input type="checkbox" name="vehicle" value="football">football<br>
+		爱车：
+		<select name="cars">
+		<option value="dazong">大众</option>
+		<option value="baoma">宝马</option>
+		<option value="aodi" selected>奥迪</option>
+		</select><br/>
+		E-mail: 		<input type="text" size="30"><br/>
+		Date of birth: 	<input type="text" size="10"><br/>
+		introduce:		<br/><textarea rows="10" cols="30">请输入...</textarea><br>
+		<input type="submit" value="提交"><input type="reset" value="重置">
+	</fieldset>
+	</form>
+	
+	<!-- 表单 -->
+	<button type="button" id="btn_clickme" onclick="clickme()">点我！</button>
+	
+	<br/>
+	<br/>
+</div>
+ 
+<div id="footer" style="background-color:green;clear:both;text-align:center;">
+版权 © moming.studio</div>
+ 
+</div>
+
+	
+   
+   <!-- 笔记 -->
+   <hr/>
+   <h1 id="note" style="text-align:center">HTML学习笔记</h1>
+   <a href="http://www.runoob.com/html/html-tutorial.html" target="_blank">学习地址</a><br>
+   <a href="http://www.runoob.com/html/html-quicklist.html" target="_blank">速查列表</a><br>
+   <a href="http://www.runoob.com/tags/html-reference.html" target="_blank">参考手册</a><br>
+
+   
+   <h6>文档结构</h6>
+    <ol>
+	 <li>注释：<span><</span>!-- 这是一个注释 --></li>
+	 <li>字符编码：文档请用utf-8编码，在meta标签指定charset为utf-8。</li>
+	 <li>文档开头：<span><</span>!DOCTYPE html>为html5通用，可以指定其他版本。</li>
+	 <li>所有的标签必须闭合，br也请闭合。无法认识的标签认为是纯文本？</li>
+	 <li>html包含head和body，head包含meta和title，body是要显示在浏览器中的内容。</li>
+	 <li>属性用引号引起来,如width="258"。</li>
+	 <li style="color:#F00;">标签可以嵌套。</li>
+	 <li>连续的空格或空行都会被算作一个空格。</li>
+	 <li>head:头部标签，可包含title，base(默认链接)，link(外部资源，如css文件)，meta，script，style</li>
+    </ol>
+
+	<h6>页面布局</h6>
+    <ol>
+	 <li>h(1|2|3|4|5|6),p,ul,table,div:区块元素,前后会换行，占据整行。</li>
+	 <li>b,td,a,img,span等：内联元素。</li>
+	 <li style="color:#F00;">应该使用div对文档进行分块布局，不建议使用table。</li>
+    </ol>
+	
+	
+	<h6>标签列表</h6>
+    <ol>
+	 <li>不带标签的纯文本</li>
+	 <li>h(1|2|3|4|5|6)：标题,1到6号标题与1到6号字体逆序对应</li>
+	 <li>p：段落</li>
+	 <li style="color:#F00;">a：文字链接。href指定地址，可以指页内id，target可以指定新标签</li>
+	 <li>img：图片，src路径，alt无法加载时显示文本。</li>
+	 <li>hr:水平线</li>
+	 <li>文本格式化很多</li>
+	 <li>ul:无序列表</li>
+	 <li>ol:有序列表</li>
+	 <li>li:列表项目</li>
+	 <li>dl，dt，dd:自定义列表</li>
+	 <li>map+area:定义图像的可点击区域。</li>
+	 <li>table,th,tr,td:表格相关。</li>
+	 <li>div:区块</li>
+	 <li>span</li>
+	 <li>form,fieldset,legend,input,textarea:表单</li>
+	 <li>iframe:显示其他页面</li>
+    </ol>
+	
+	<h6>属性列表</h6>
+    <ol>
+	 <li>class：所属的类，多个标签可属于同一个类</li>
+	 <li>id：唯一标识</li>
+	 <li style="color:#F00;">style:行内样式,分号分隔</li>
+	 <li>name:名字</li>
+	 <li>title:额外信息</li>
+	 <li>color:颜色</li>
+	 <li>background-color:背景色</li>
+	 <li>margin-left:</li>
+	 <li>font-family：字体</li>
+	 <li>font-size：字号</li>
+	 <li>text-align:文本对齐</li>
+	 <li>border。</li>
+    </ol>
+	
+</body>
+</html>
