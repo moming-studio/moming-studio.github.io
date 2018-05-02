@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>WebRTC多路收发Demo</title>
+    <style>
+	  video {
+		border:5px solid black;
+	  }
+	  button {
+		font: 18px sans-serif;
+		padding: 8px;
+	  }
+    </style>
+</head>
+<body>
+
+<div style="position:relative">
+    <video id="yours" autoplay></video>
+    <span type="text" style="display:inline-block;position:absolute;color:yellow;top:5px;left:5px;">发送视频流两路视频</span>
+    <span type="text" id="localVideoResolution" style="display:inline-block;position:absolute;color:yellow;top:25px;left:5px;"></span>
+    <span type="text" id="localVideoFrameRate" style="display:inline-block;position:absolute;color:yellow;top:45px;left:5px;"></span>
+    <span type="text" id="localVideoBitRate"    style="display:inline-block;position:absolute;color:yellow;top:65px;left:5px;"></span>
+</div>
+
+<!--div style="position:relative">
+    <video id="yours2" autoplay></video>
+    <span type="text" style="display:inline-block;position:absolute;color:yellow;top:5px;left:5px;">发送视频流2 VP8</span>
+    <span type="text" id="localVideoResolution" style="display:inline-block;position:absolute;color:yellow;top:25px;left:5px;"></span>
+    <span type="text" id="localVideoFrameRate" style="display:inline-block;position:absolute;color:yellow;top:45px;left:5px;"></span>
+    <span type="text" id="localVideoBitRate"    style="display:inline-block;position:absolute;color:yellow;top:65px;left:5px;"></span>
+</div -->
+
+<div style="position:relative">
+    <video id="theirs" autoplay></video>
+    <span type="text" style="display:inline-block;position:absolute;color:red;top:5px;left:5px;">接收视频流1</span>
+    <span type="text" id="remoteVideo1Resolution" style="display:inline-block;position:absolute;color:red;top:25px;left:5px;"></span>
+    <span type="text" id="remoteVideo1FrameRate" style="display:inline-block;position:absolute;color:red;top:45px;left:5px;"></span>
+    <span type="text" id="remoteVideo1BitRate" style="display:inline-block;position:absolute;color:red;top:65px;left:5px;"></span>
+</div>
+<div style="position:relative">
+    <video id="theirs2" autoplay></video>
+    <span type="text" style="display:inline-block;position:absolute;color:red;top:5px;left:5px;">接收视频流2</span>
+    <span type="text" id="remoteVideo2Resolution" style="display:inline-block;position:absolute;color:red;top:25px;left:5px;"></span>
+    <span type="text" id="remoteVideo2FrameRate" style="display:inline-block;position:absolute;color:red;top:45px;left:5px;"></span>
+    <span type="text" id="remoteVideo2BitRate" style="display:inline-block;position:absolute;color:red;top:65px;left:5px;"></span>
+</div>
+
+<script>
+document.getElementById("localVideoResolution").innerHTML = "640x480</br>320x240";
+document.getElementById("remoteVideo1Resolution").innerHTML = "640x480"
+document.getElementById("remoteVideo2Resolution").innerHTML = "320x240";
+</script>
+					
+<script src="main.js"></script>
+  </body>
+</html>
