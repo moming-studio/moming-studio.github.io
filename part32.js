@@ -28,14 +28,17 @@ var ansericeList = [];
 function startConnection() {
   if (hasUserMedia()) {
     //获取第一路流
-    navigator.getUserMedia({video: {width: {exact: 1080}, height: {exact: 1080}}}, function (mystream1) {
+    navigator.getUserMedia({ audio: false,video: { 'mandatory': { 'minWidth': 1080, 'maxWidth': 1080,
+                'minHeight': 720, 'maxHeight': 720 } }}, function (mystream1) {
       stream1 = mystream1;
 
       //获取第二路流
-      navigator.getUserMedia({video: {width: {exact: 640}, height: {exact: 640}}}, function (mystream2) {
+      navigator.getUserMedia({ audio: false,video: { 'mandatory': { 'minWidth': 640, 'maxWidth': 640,
+                  'minHeight': 480, 'maxHeight': 480 } }}, function (mystream2) {
           stream2 = mystream2;
           //获取第三路流
-          navigator.getUserMedia({video: {width: {exact: 320}, height: {exact: 320}}}, function (mystream3) {
+          navigator.getUserMedia({ audio: false,video: { 'mandatory': { 'minWidth': 320, 'maxWidth': 320,
+                      'minHeight': 240, 'maxHeight': 240 } }}, function (mystream3) {
               stream3 = mystream3;
               mineVideo.src = window.URL.createObjectURL(stream3);
               //开始连接
@@ -157,9 +160,9 @@ function hasUserMedia() {
 }
 
 function hasRTCPeerConnection() {
-  window.RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
-  window.RTCSessionDescription = window.RTCSessionDescription || window.webkitRTCSessionDescription || window.mozRTCSessionDescription;
-  window.RTCIceCandidate = window.RTCIceCandidate || window.webkitRTCIceCandidate || window.mozRTCIceCandidate;
+  window.RTCPeerConnection = window.webkitRTCPeerConnection || window.RTCPeerConnection || window.mozRTCPeerConnection;
+  window.RTCSessionDescription = window.webkitRTCSessionDescription || window.RTCSessionDescription || window.mozRTCSessionDescription;
+  window.RTCIceCandidate = window.webkitRTCIceCandidate ||window.RTCIceCandidate || window.mozRTCIceCandidate;
   return !!window.RTCPeerConnection;
 }
 
