@@ -33,10 +33,12 @@ function startConnection() {
       stream1 = mystream1;
 
       //获取第二路流
-      navigator.getUserMedia({ audio: false,video:true}, function (mystream2) {
+      navigator.getUserMedia({ audio: false,video: { 'mandatory': { 'minWidth': 640, 'maxWidth': 640,
+                  'minHeight': 480, 'maxHeight': 480 } }}, function (mystream2) {
           stream2 = mystream2;
           //获取第三路流
-          navigator.getUserMedia({ audio: false,video:true}, function (mystream3) {
+          navigator.getUserMedia({ audio: false,video: { 'mandatory': { 'minWidth': 320, 'maxWidth': 320,
+                      'minHeight': 240, 'maxHeight': 240 } }}, function (mystream3) {
               stream3 = mystream3;
               mineVideo.src = window.URL.createObjectURL(stream3);
               //开始连接
