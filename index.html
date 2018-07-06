@@ -18,7 +18,7 @@
         display: block;
         margin: 0 auto;
         width: 500px;
-        height: 500px;
+        height: 300px;
       }
 
       #mine1 {
@@ -81,9 +81,12 @@
 
     <!--登录-->
     <div id="login-page" class="page">
+      <h2>信令服务地址:</h2>
+      <input type="text" id="server" value="http://47.90.74.172:10001"/>
+      <!--"http://47.90.74.172:10001 http://localhost:8888"-->
       <h2>用户名:</h2>
-      <input type="text" id="username" />
-      <button id="login">登录</button>
+      <input type="text" id="username" placeholder="请输入任意名字" />
+      <input type="button" id="login" value="登录"/>
     </div>
 
     <!--通话-->
@@ -107,17 +110,23 @@
       </table>
 
       <!--呼叫与挂断-->
-      <input type="text" id="their-username" />
-      <button id="call">呼叫</button>
-      <button id="hang-up">挂断</button>
+      <input type="text" id="their-username" placeholder="请输入对方id" style="width: 100px"  />
+      <input type="checkbox" id="cb_audio" checked="true"/>开启音频
+      <select id="select_videocount">
+        <option value="0">关闭视频</option>
+        <option value="1">1路视频+(320x180)</option>
+        <option value="2" selected="selected">2路视频+(640x360)</option>
+        <option value="3">3路视频+(1280x720)</option>
+      </select>
+      <input type="button" id="call" value="呼叫">
+      <input type="button" id="hang-up" value="挂断">
+      <input type="button" id="logout" value="登出">
 
       <!--文本消息收发-->
       <div id="received"></div>
-      <input type="text" id="message"></input>
-      <button id="send">发送</button>
     </div>
 
     <!--<script src="client.js"></script>-->
-    <script src="part3.js"></script>
+    <script src="part3_pc_server.js"></script>
   </body>
 </html>
